@@ -14,7 +14,30 @@
                 "nn",
                 "detect",
                 "test",
-                "test"
+                "test",
+                "--test_split",
+                "0.2",
+                "--test"
+            ]
+        },
+        {
+            "name": "NN Train",
+            "type": "python",
+            "request": "launch",
+            "program": "click_fsoco.py",
+            "console": "integratedTerminal",
+            "args": [
+                "nn",
+                "train",
+                "$FSOCO_DATA/fsoco_bounding_boxes_train",
+                "work_dir",
+                "--test_split",
+                "0.2",
+                "--data",
+                "data.yaml",
+                "--weights",
+                "yolov5s.pt",
+                "nope"
             ]
         }
     ]
