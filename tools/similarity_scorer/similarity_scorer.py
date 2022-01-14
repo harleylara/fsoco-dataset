@@ -4,10 +4,11 @@ from pathlib import Path
 
 import pandas as pd
 
+from utils.logger import Logger
+
 from .metrics.cosine_metric import CosineMetric
 from .metrics.metric import Metric
 from .utils.feature_extractor import FeatureExtractor
-from .utils.logger import Logger
 from .utils.similarity_viewer import SimilarityViewer
 from .utils.similarity_clustering import (
     SimilarityClustering,

@@ -2,7 +2,7 @@ import click
 from pathlib import Path
 
 from .similarity_scorer import SimilarityScorer
-from .utils.logger import Logger
+from utils.logger import Logger
 
 
 # TODO add selection threshold description

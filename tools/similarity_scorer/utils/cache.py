@@ -2,7 +2,7 @@ from pathlib import Path
 import pickle
 from typing import Any
 
-from .logger import Logger
+from utils.logger import Logger
 
 MAGIC_STRING = "FSOCO_SIMILARITY_SCORER"
 CACHE_VERSION = 0

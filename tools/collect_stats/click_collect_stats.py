@@ -1,6 +1,6 @@
 import click
 from pathlib import Path
-from similarity_scorer.utils.logger import Logger
+from utils.logger import Logger
 from collect_stats.stats_collector import StatsCollector
 
 

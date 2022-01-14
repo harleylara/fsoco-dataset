@@ -1,7 +1,7 @@
 import numpy as np
 import supervisely_lib as sly
 
-from similarity_scorer.utils.logger import Logger
+from utils.logger import Logger
 from .label_checker import LabelChecker, check_label_existence
 
 

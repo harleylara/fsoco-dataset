@@ -3,7 +3,7 @@ import sys
 from requests.exceptions import HTTPError
 from difflib import SequenceMatcher
 
-from similarity_scorer.utils.logger import Logger
+from utils.logger import Logger
 
 
 def safe_request(request, *args, **kwargs):

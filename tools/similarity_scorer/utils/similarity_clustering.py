@@ -7,7 +7,7 @@ from collections import defaultdict
 import time
 from tqdm import tqdm
 
-from .logger import Logger
+from utils.logger import Logger
 
 # Clusters
 CLUSTERS_FOLDER_NAME = "clusters"

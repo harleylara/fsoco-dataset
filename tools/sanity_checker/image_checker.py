@@ -1,6 +1,6 @@
 from typing import List
 
-from similarity_scorer.utils.logger import Logger
+from utils.logger import Logger
 from .checker import Checker
 
 

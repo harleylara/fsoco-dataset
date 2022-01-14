@@ -6,7 +6,7 @@ import json
 import supervisely_lib as sly
 from tqdm import tqdm
 
-from similarity_scorer.utils.logger import Logger
+from utils.logger import Logger
 from .bounding_box_checker import BoundingBoxChecker
 from .checker import Checker
 from .image_checker import ImageChecker

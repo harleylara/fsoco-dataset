@@ -1,5 +1,5 @@
 import multiprocessing as mp
-from similarity_scorer.utils.logger import Logger
+from utils.logger import Logger
 from tqdm import tqdm
 import json
 from pathlib import Path

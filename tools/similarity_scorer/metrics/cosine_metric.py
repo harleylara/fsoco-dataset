@@ -4,7 +4,7 @@ import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
 
 from .metric import Metric
-from ..utils.logger import Logger
+from utils.logger import Logger
 
 
 class CosineMetric(Metric):

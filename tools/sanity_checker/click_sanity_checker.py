@@ -2,7 +2,7 @@ import click
 from pathlib import Path
 from typing import Tuple
 
-from similarity_scorer.utils.logger import Logger
+from utils.logger import Logger
 from .sanity_checker import SanityChecker
 
 

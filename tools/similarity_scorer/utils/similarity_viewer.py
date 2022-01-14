@@ -6,7 +6,7 @@ from pathlib import Path
 from screeninfo import get_monitors
 from collections import defaultdict
 
-from .logger import Logger
+from utils.logger import Logger
 
 # visualize similarity
 CV_FONT = cv2.FONT_HERSHEY_SIMPLEX
