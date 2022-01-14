@@ -10,6 +10,7 @@ from similarity_scorer.click_similarity_scorer import similarity_scorer
 from collect_stats.click_collect_stats import collect_stats
 from viewers.viewers import viewers
 from sanity_checker.click_sanity_checker import sanity_checker
+from nn.click_nn import nn
 
 
 class Tools(object):
@@ -51,6 +52,7 @@ fsoco.add_command(similarity_scorer)
 fsoco.add_command(collect_stats)
 fsoco.add_command(viewers)
 fsoco.add_command(sanity_checker)
+fsoco.add_command(nn)
 
 
 if __name__ == "__main__":
