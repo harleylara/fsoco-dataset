@@ -2,6 +2,7 @@ import click
 
 from .train import main
 
+
 @click.command()
 @click.argument("sly_project_folder_train", type=str)
 @click.argument("output_folder", type=str)
@@ -12,6 +13,7 @@ def train(sly_project_folder_train, output_folder, config):
 
     """
     main(sly_project_folder_train, output_folder, config)
+
 
 if __name__ == "__main__":
     click.echo(

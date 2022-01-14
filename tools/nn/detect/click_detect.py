@@ -2,6 +2,7 @@ import click
 
 from .detect import main
 
+
 @click.command()
 @click.argument("model", type=str)
 @click.argument("image_folder_path", type=str)
@@ -12,6 +13,7 @@ def detect(model, image_folder_path, config):
 
     """
     main(model, image_folder_path, config)
+
 
 if __name__ == "__main__":
     click.echo(

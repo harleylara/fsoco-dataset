@@ -12,8 +12,8 @@ def nn():
     The commands in this group help you train and run networks on your data.
     """
     pass
-    
-    
+
+
 nn.add_command(train)
 nn.add_command(detect)
 
