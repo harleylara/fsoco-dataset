@@ -12,10 +12,13 @@ from .train import main
     )
 )
 @click.argument("sly_project_folder_train", type=str)
+@click.argument("sly_project_folder_val", type=str)
 @click.argument("working_folder", type=str)
 @click.option("--test_split", type=click.FloatRange(0, 1.0, clamp=True))
 @click.pass_context
-def train(ctx, sly_project_folder_train, working_folder, test_split):
+def train(
+    ctx, sly_project_folder_train, sly_project_folder_val, working_folder, test_split
+):
     """
     #TODO add documentation
 
@@ -39,7 +42,7 @@ def train(ctx, sly_project_folder_train, working_folder, test_split):
         else:
             Logger.log_warn(f"unkown argument '{item}'")
 
-    main(sly_project_folder_train, working_folder, test_split, kwargs)
+    main(sly_project_folder_train, sly_project_folder_val, working_folder, kwargs)
 
 
 if __name__ == "__main__":

@@ -9,6 +9,8 @@ from multiprocessing import Pool
 import tqdm
 from functools import partial
 
+from utils.logger import Logger
+
 from ..helpers import fsoco_to_class_id_mapping
 from watermark.watermark import FSOCO_IMPORT_BORDER_THICKNESS
 
@@ -238,6 +240,8 @@ def main(
 
     sly_base = Path(sly_project_path)
     darknet_export_base = Path(output_path)
+
+    Logger.log_info(f"Saving Darknet labels to {darknet_export_base.absolute()}")
 
     darknet_export_images_dir = darknet_export_base / "images"
     darknet_export_labels_dir = darknet_export_base / "labels"

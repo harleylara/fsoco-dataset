@@ -29,7 +29,8 @@
             "args": [
                 "nn",
                 "train",
-                "$FSOCO_DATA/fsoco_bounding_boxes_train",
+                "${env:FSOCO_DATA}/fsoco_bounding_boxes_train",
+                "${env:FSOCO_DATA}/fsoco_bounding_boxes_test",
                 "work_dir",
                 "--test_split",
                 "0.2",
