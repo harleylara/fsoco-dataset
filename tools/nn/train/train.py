@@ -1,5 +1,6 @@
 # from yolov5 import train
 from pathlib import Path
+import yaml
 
 from utils.logger import Logger
 from label_converters.sly2yolo.sly2yolo import main as sly2yolo
@@ -18,8 +19,15 @@ class FSOCOTrainer:
         self._data_dir = None
         self._weights_dir = None
 
+        self._train_classes = {}
+        self._val_classes = {}
+
+        self._data_config_file = None
+
         self._init_working_folder(working_folder)
         self._prepare_training_data(sly_project_folder_train, sly_project_folder_val)
+        self._collect_meta_data()
+        self._create_data_file()
 
     def _init_working_folder(self, working_folder: str) -> None:
         self._working_dir = Path(working_folder)
@@ -85,6 +93,45 @@ class FSOCOTrainer:
                 f.write("FLAG_FILE")
         else:
             Logger.log_info(f"Using chached val dataset in -> {self._val_data_dir}")
+
+    def _collect_meta_data(self):
+        train_class_file = self._train_data_dir / "classes.txt"
+        val_class_file = self._val_data_dir / "classes.txt"
+
+        with open(train_class_file, "r") as f:
+            for n, line in enumerate(f):
+                class_name = line.strip()
+                self._train_classes[class_name] = n
+
+        with open(val_class_file, "r") as f:
+            for n, line in enumerate(f):
+                class_name = line.strip()
+                self._val_classes[class_name] = n
+
+                if self._train_classes.get(class_name, -1) != n:
+                    Logger.log_warn(
+                        f"Class '{class_name}' with id {n} not found in training dataset!"
+                    )
+
+    def _create_data_file(self):
+        self._data_config_file = self._data_dir / "fsoco.yml"
+        data = dict(
+            path=str(self._data_dir),
+            train=str(self._train_data_dir),
+            val=str(self._val_data_dir),
+            test="",
+            nc=len(self._train_classes.keys()),
+            names=[class_name for class_name in self._train_classes.keys()],
+        )
+
+        with open(self._data_config_file, "w") as outfile:
+            yaml.dump(data, outfile, default_flow_style=None)
+
+        Logger.log_info(
+            f"Stored training data configuration to {str(self._data_config_file)}"
+        )
+
+        pass
 
     def train(self):
         pass
