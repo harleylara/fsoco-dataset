@@ -8,7 +8,10 @@ from .sly2yolo import main
 @click.argument("output_folder", type=str)
 @click.option("--remove_watermark", is_flag=True, default=False)
 @click.option("--exclude", "-e", multiple=True)
-def sly2yolo(sly_project_folder, output_folder, remove_watermark, exclude):
+@click.option("--keep_image_extension", "-kie", is_flag=True, default=False)
+def sly2yolo(
+    sly_project_folder, output_folder, remove_watermark, exclude, keep_image_extension
+):
     """
     Supervisely  => Darknet YOLO format
 
@@ -20,6 +23,10 @@ def sly2yolo(sly_project_folder, output_folder, remove_watermark, exclude):
 
     \b
     Use --exclude tag_name or -e tag_name to exclude objects with the specific tag.
+
+     \b
+    Use --keep_image_extension or -kie to not remove the image extenstion from label file names.
+    Label files will be named img_x.jpeg.txt.
 
     \b
     Input:
@@ -51,7 +58,13 @@ def sly2yolo(sly_project_folder, output_folder, remove_watermark, exclude):
 
     """
     click.echo("[LOG] Running Supervisely to  Darknet Yolo label converter")
-    main(sly_project_folder, output_folder, remove_watermark, exclude)
+    main(
+        sly_project_folder,
+        output_folder,
+        remove_watermark,
+        exclude,
+        keep_image_extension,
+    )
 
 
 if __name__ == "__main__":

@@ -172,11 +172,17 @@ def convert_label(
     class_id_mapping: dict,
     remove_watermark: bool,
     exclude_tags: list,
+    keep_image_extension: bool,
     label: Path,
 ):
     class_counter = defaultdict(int)
-    name = label.stem
     image = Path(str(label).replace("/ann/", "/img/").replace(".json", ""))
+    image_name = label.stem
+
+    if keep_image_extension:
+        name = image_name
+    else:
+        name = image_name.split(".")[0]
 
     with open(label) as json_file:
         data = json.load(json_file)
@@ -186,7 +192,7 @@ def convert_label(
             image_width = data["size"]["width"]
             image_height = data["size"]["height"]
 
-            export_image(darknet_export_images_dir, image, name, remove_watermark)
+            export_image(darknet_export_images_dir, image, image_name, remove_watermark)
             label_file_name = darknet_export_labels_dir / f"{name}.txt"
 
             with open(label_file_name, "w") as darknet_label:
@@ -234,7 +240,11 @@ def convert_label(
 
 
 def main(
-    sly_project_path: str, output_path: str, remove_watermark: bool, exclude: list
+    sly_project_path: str,
+    output_path: str,
+    remove_watermark: bool,
+    exclude: list,
+    keep_image_extension: bool,
 ):
     class_id_mapping = fsoco_to_class_id_mapping()
 
@@ -257,6 +267,7 @@ def main(
         class_id_mapping,
         remove_watermark,
         exclude,
+        keep_image_extension,
     )
 
     global_class_counter = defaultdict(int)
