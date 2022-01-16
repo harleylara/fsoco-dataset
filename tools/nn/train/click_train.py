@@ -42,7 +42,46 @@ def try_convert_string(string: str) -> Any:
 @click.pass_context
 def train(ctx, sly_project_folder_train, sly_project_folder_val, working_folder):
     """
-    #TODO add documentation
+
+    The "train" command allows you to train a YOLOv5 based network with the FSOCO dataset (or any other available in supervisely Format).
+
+    https://github.com/ultralytics/yolov5
+
+    \b
+
+    The validation set is not automatically extracted from the training dataset to ensure the reproducibility of the experiments. Please split and store the dataset separately.
+
+    The "train" command only needs a reference to the train/validation dataset and a working directory, where the intermediate dataset and artifacts from the YOLOv5 training are stored.
+
+    Any additional arguments will be directly passed through to the YOLOv5 training script. You can use all arguments except "--data" as this will be overwritten by the fsoco CLI tool.
+
+    `fsoco nn train /data/train_set /data/val_set ./work_dir --weights yolov5s.pt --batch-size 8 --epochs 30 --imgsz 640`
+
+    You can use the following commands to show the training logs in tensorboard:
+
+    `tensorboard --logdir ./work_dir/runs/train`
+
+     view at http://localhost:6006/
+
+    \b
+    Output:
+
+    work_dir
+    ├── data
+       ├── train
+          └── Training dataset in Darknet format ...
+       ├── val
+          └── Validation dataset in Darknet format ...
+       └── fsoco.yaml
+    └── runs / train
+       ├── exp
+       ├── exp1
+       ├── ....
+       └── exp<N>
+          ├── weights
+             ├── best.pt
+             └── last.pt
+          └── other artifacts and tensorboard logs
 
     """
 
