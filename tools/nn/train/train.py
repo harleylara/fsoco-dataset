@@ -1,6 +1,9 @@
 # from yolov5 import train
 from pathlib import Path
 import yaml
+from yolov5 import train
+import os
+import shutil
 
 from utils.logger import Logger
 from label_converters.sly2yolo.sly2yolo import main as sly2yolo
@@ -15,9 +18,11 @@ class FSOCOTrainer:
         train_kwargs: dict,
     ) -> None:
 
-        self._working_dir = None
+        self._working_directory = None
         self._data_dir = None
         self._weights_dir = None
+
+        self._train_kwargs = train_kwargs
 
         self._train_classes = {}
         self._val_classes = {}
@@ -30,21 +35,21 @@ class FSOCOTrainer:
         self._create_data_file()
 
     def _init_working_folder(self, working_folder: str) -> None:
-        self._working_dir = Path(working_folder)
-        self._data_dir = self._working_dir / "data"
-        self._weights_dir = self._working_dir / "weights"
+        self._working_directory = Path(working_folder)
+        self._data_dir = self._working_directory / "data"
+        self._weights_dir = self._working_directory / "weights"
 
         self._train_data_dir = self._data_dir / "train"
         self._val_data_dir = self._data_dir / "val"
 
-        self._working_dir.mkdir(parents=True, exist_ok=True)
+        self._working_directory.mkdir(parents=True, exist_ok=True)
 
         self._data_dir.mkdir(parents=True, exist_ok=True)
         self._weights_dir.mkdir(parents=True, exist_ok=True)
         self._train_data_dir.mkdir(parents=True, exist_ok=True)
         self._val_data_dir.mkdir(parents=True, exist_ok=True)
 
-        Logger.log_info(f"Using working directory - {self._working_dir}")
+        Logger.log_info(f"Using working directory - {self._working_directory}")
 
     def _prepare_training_data(
         self, sly_project_folder_train: str, sly_project_folder_val: str
@@ -60,7 +65,7 @@ class FSOCOTrainer:
         )
 
         if not train_converted_flag_file.exists():
-            self._train_data_dir.unlink()
+            shutil.rmtree(self._train_data_dir)
             self._train_data_dir.mkdir(parents=True, exist_ok=True)
 
             sly2yolo(
@@ -68,6 +73,7 @@ class FSOCOTrainer:
                 output_path=str(self._train_data_dir.absolute()),
                 remove_watermark=True,
                 exclude=[],
+                keep_image_extension=False,
             )
 
             with open(train_converted_flag_file, "w") as f:
@@ -79,7 +85,7 @@ class FSOCOTrainer:
         Logger.log_info("Converting validation dataset ...")
 
         if not val_converted_flag_file.exists():
-            self._val_data_dir.unlink()
+            shutil.rmtree(self._val_data_dir)
             self._val_data_dir.mkdir(parents=True, exist_ok=True)
 
             sly2yolo(
@@ -87,6 +93,7 @@ class FSOCOTrainer:
                 output_path=str(self._val_data_dir.absolute()),
                 remove_watermark=True,
                 exclude=[],
+                keep_image_extension=False,
             )
 
             with open(val_converted_flag_file, "w") as f:
@@ -116,9 +123,9 @@ class FSOCOTrainer:
     def _create_data_file(self):
         self._data_config_file = self._data_dir / "fsoco.yml"
         data = dict(
-            path=str(self._data_dir),
-            train=str(self._train_data_dir),
-            val=str(self._val_data_dir),
+            path=str(self._data_dir.name),
+            train=str(self._train_data_dir.name),
+            val=str(self._val_data_dir.name),
             test="",
             nc=len(self._train_classes.keys()),
             names=[class_name for class_name in self._train_classes.keys()],
@@ -134,7 +141,23 @@ class FSOCOTrainer:
         pass
 
     def train(self):
-        pass
+        Logger.log_info("Start Training")
+
+        cwd = os.getcwd()
+        os.chdir(self._working_directory)
+
+        if "data" in self._train_kwargs.keys():
+            Logger.log_warn(
+                "Please do not use your own data file. We auto-create it for you. Your value will be overwritten!"
+            )
+
+        self._train_kwargs["data"] = str(
+            self._data_config_file.relative_to(self._working_directory)
+        )
+
+        train.run(**self._train_kwargs)
+
+        os.chdir(cwd)
 
 
 def main(

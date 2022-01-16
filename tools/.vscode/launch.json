@@ -32,11 +32,18 @@
                 "${env:FSOCO_DATA}/fsoco_bounding_boxes_train",
                 "${env:FSOCO_DATA}/fsoco_bounding_boxes_test",
                 "work_dir",
-                "--data",
-                "data.yaml",
                 "--weights",
                 "yolov5s.pt",
-                "nope"
+                "--batch-size",
+                "8",
+                "--epochs",
+                "30",
+                "--imgsz",
+                "640",
+                "--cache",
+                "ram",
+                "--label-smoothing",
+                "0.01"
             ]
         }
     ]

@@ -1,8 +1,33 @@
 import click
+from typing import Any
 
 from utils.logger import Logger
-
 from .train import main
+
+
+def is_float(element: str) -> bool:
+    try:
+        float(element)
+        return True
+    except ValueError:
+        return False
+
+
+def is_int(element: str) -> bool:
+    try:
+        int(element)
+        return True
+    except ValueError:
+        return False
+
+
+def try_convert_string(string: str) -> Any:
+    if is_int(string):
+        return int(string)
+    elif is_float(string):
+        return float(string)
+    else:
+        return string
 
 
 @click.command(
@@ -14,11 +39,8 @@ from .train import main
 @click.argument("sly_project_folder_train", type=str)
 @click.argument("sly_project_folder_val", type=str)
 @click.argument("working_folder", type=str)
-@click.option("--test_split", type=click.FloatRange(0, 1.0, clamp=True))
 @click.pass_context
-def train(
-    ctx, sly_project_folder_train, sly_project_folder_val, working_folder, test_split
-):
+def train(ctx, sly_project_folder_train, sly_project_folder_val, working_folder):
     """
     #TODO add documentation
 
@@ -37,7 +59,7 @@ def train(
             kwargs[key] = True
         elif not is_key and not new_key:
             # value after key
-            kwargs[key] = item
+            kwargs[key] = try_convert_string(item)
             new_key = True
         else:
             Logger.log_warn(f"unkown argument '{item}'")
