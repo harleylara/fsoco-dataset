@@ -53,6 +53,7 @@ setup(
         "tensorboard>=2.4.1",
         "seaborn>=0.11.0",
         "yolov5>=6.0.6",
+        "sahi",
     ],
     extras_require={
         "sly": [
