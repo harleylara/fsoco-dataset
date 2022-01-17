@@ -1,7 +1,5 @@
-# from yolov5 import train
 from pathlib import Path
 import yaml
-from yolov5 import train
 import os
 import shutil
 
@@ -20,7 +18,6 @@ class FSOCOTrainer:
 
         self._working_directory = None
         self._data_dir = None
-        # self._weights_dir = None
 
         self._train_kwargs = train_kwargs
 
@@ -37,7 +34,6 @@ class FSOCOTrainer:
     def _init_working_folder(self, working_folder: str) -> None:
         self._working_directory = Path(working_folder)
         self._data_dir = self._working_directory / "data"
-        # self._weights_dir = self._working_directory / "weights"
 
         self._train_data_dir = self._data_dir / "train"
         self._val_data_dir = self._data_dir / "val"
@@ -45,7 +41,6 @@ class FSOCOTrainer:
         self._working_directory.mkdir(parents=True, exist_ok=True)
 
         self._data_dir.mkdir(parents=True, exist_ok=True)
-        self._weights_dir.mkdir(parents=True, exist_ok=True)
         self._train_data_dir.mkdir(parents=True, exist_ok=True)
         self._val_data_dir.mkdir(parents=True, exist_ok=True)
 
@@ -141,6 +136,8 @@ class FSOCOTrainer:
         pass
 
     def train(self):
+        from yolov5 import train
+
         Logger.log_info("Start Training")
 
         cwd = os.getcwd()
