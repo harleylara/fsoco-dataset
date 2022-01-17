@@ -49,11 +49,14 @@ def train(ctx, sly_project_folder_train, sly_project_folder_val, working_folder)
 
     \b
 
-    The validation set is not automatically extracted from the training dataset to ensure the reproducibility of the experiments. Please split and store the dataset separately.
+    The validation set is not automatically extracted from the training dataset to ensure the reproducibility of the experiments.
+    Please split and store the dataset separately.
 
-    The "train" command only needs a reference to the train/validation dataset and a working directory, where the intermediate dataset and artifacts from the YOLOv5 training are stored.
+    The "train" command only needs a reference to the train/validation dataset and a working directory,
+    where the intermediate dataset and artifacts from the YOLOv5 training are stored.
 
-    Any additional arguments will be directly passed through to the YOLOv5 training script. You can use all arguments except "--data" as this will be overwritten by the fsoco CLI tool.
+    Any additional arguments will be directly passed through to the YOLOv5 training script.
+    You can use all arguments except "--data" as this will be overwritten by the fsoco CLI tool.
 
     `fsoco nn train /data/train_set /data/val_set ./work_dir --weights yolov5s.pt --batch-size 8 --epochs 30 --imgsz 640`
 
