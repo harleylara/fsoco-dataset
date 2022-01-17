@@ -65,7 +65,6 @@ def train(ctx, sly_project_folder_train, sly_project_folder_val, working_folder)
 
     \b
     Output:
-
     work_dir
     ├── data
        ├── train
