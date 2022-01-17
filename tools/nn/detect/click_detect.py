@@ -5,13 +5,9 @@ from utils.logger import Logger
 
 
 @click.command()
-@click.argument("model", help="path to YOLOv5 weights file", type=str)
-@click.argument(
-    "input_data",
-    help="Path/wildcard for input data. Please don't forget to put your wildcard into quotes '*.xyz', to stop the shell from expanding it.",
-    type=str,
-)
-@click.argument("output_path", help="Path where the output should be stored.", type=str)
+@click.argument("model", type=str)
+@click.argument("input_data", type=str)
+@click.argument("output_path", type=str)
 @click.argument("catch_wildcard_expansion", nargs=-1)
 @click.option("--device", type=str, default="cuda:0")
 @click.option(
@@ -28,9 +24,9 @@ from utils.logger import Logger
 )
 @click.option(
     "--video_sampling_step",
-    help="Videos in your input data will be sampled with this step size.",
     type=click.IntRange(0),
     default=10,
+    help="Videos in your input data will be sampled with this step size.",
 )
 def detect(
     model,
@@ -48,6 +44,8 @@ def detect(
 ):
     """
     #TODO add documentation
+
+     help="Path/wildcard for input data. Please don't forget to put your wildcard into quotes '*.xyz', to stop the shell from expanding it.",
 
     """
 
