@@ -213,7 +213,8 @@ def convert_label(
 ):
     class_counter = defaultdict(int)
     name = label.stem
-    image = Path(str(label).replace("/ann/", "/img/").replace(".json", ""))
+    group = label.parents[1]
+    image = group / "img" / name
 
     with open(label) as json_file:
         data = json.load(json_file)
